@@ -1,6 +1,12 @@
 package main
 
-import "math"
+import (
+	"bufio"
+	"math"
+	"os"
+	"strconv"
+	"strings"
+)
 
 /*
 Maybe the lists are only off by a small amount! To find out, pair up the numbers and measure how far apart they are. Pair up the smallest number in the left list with the smallest number in the right list, then the second-smallest left number with the second-smallest right number, and so on.
@@ -40,4 +46,37 @@ func sort(list []int) {
 			}
 		}
 	}
+}
+
+func parse() ([]int, []int) {
+	file, err := os.Open("input.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	var left, right []int
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		parts := strings.Fields(line) // Split by whitespace
+
+		if len(parts) == 2 {
+			l, err1 := strconv.Atoi(parts[0])
+			r, err2 := strconv.Atoi(parts[1])
+			if err1 != nil || err2 != nil {
+				panic(err1)
+			}
+			left = append(left, l)
+			right = append(right, r)
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		panic(err)
+	}
+	return left, right
+}
+
+func main() {
+	left, right := parse()
+	println(distance(left, right))
 }
