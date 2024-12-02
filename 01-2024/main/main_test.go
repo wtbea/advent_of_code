@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func MainTest(t *testing.T) {
+func TestMain(t *testing.T) {
 	tests := []struct {
 		name                string
 		left                []int
